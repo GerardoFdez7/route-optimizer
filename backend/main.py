@@ -1,7 +1,13 @@
 import os
-import functions_framework
+import json
+from firebase_functions import https_fn
+from firebase_admin import initialize_app
 from modules.distance_matrix import get_distance_matrix
 from modules.genetic_algorithm import run_genetic_algorithm
+from modules.security import verify_firebase_token
+
+# Firebase Admin SDK ya debe ser inicializado al arrancar para Functions
+initialize_app()
 
 def _build_cors_headers():
     """Genera las cabeceras CORS de respuesta permitiendo la comunicación desde React."""
@@ -24,8 +30,8 @@ def _parse_distances(raw_data):
         matrix.append(row_dists)
     return matrix
 
-@functions_framework.http
-def optimize_route(request):
+@https_fn.on_request()
+def optimize_route(request: https_fn.Request) -> https_fn.Response:
     """
     HTTP Cloud Function entry point.
     Recibe los destinos y el mode, invoca Distance Matrix, ejecuta el GA y devuelve JSON.
@@ -37,7 +43,12 @@ def optimize_route(request):
     headers = _build_cors_headers()
 
     try:
-        # TODO: Fase 5 -> Implementar validación estricta de Firebase Auth aquí
+        # Validación estricta de Firebase Auth
+        auth_header = request.headers.get('Authorization')
+        try:
+            verify_firebase_token(auth_header)
+        except ValueError as e:
+            return ({"error_message": str(e)}, 401, headers)
 
         req_data = request.get_json(silent=True)
         if not req_data:
