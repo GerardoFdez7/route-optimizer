@@ -1,5 +1,4 @@
 import os
-import json
 from firebase_functions import https_fn
 from firebase_admin import initialize_app
 from modules.distance_matrix import get_distance_matrix
@@ -30,6 +29,10 @@ def _parse_distances(raw_data):
         matrix.append(row_dists)
     return matrix
 
+# Lista de IPs autorizadas
+allowed_ips_str = os.environ.get("ALLOWED_IPS", "")
+ALLOWED_IPS = [ip.strip() for ip in allowed_ips_str.split(",") if ip.strip()]
+
 @https_fn.on_request()
 def optimize_route(request: https_fn.Request) -> https_fn.Response:
     """
@@ -41,6 +44,16 @@ def optimize_route(request: https_fn.Request) -> https_fn.Response:
         return ('', 204, _build_cors_headers())
 
     headers = _build_cors_headers()
+
+    # Validación de IP
+    forwarded_for = request.headers.get("X-Forwarded-For")
+    if forwarded_for:
+        client_ip = forwarded_for.split(',')[0].strip()
+    else:
+        client_ip = request.remote_addr
+
+    if client_ip not in ALLOWED_IPS:
+        return ({"error_message": f"Acceso denegado: IP no autorizada ({client_ip})."}, 403, headers)
 
     try:
         # Validación estricta de Firebase Auth
