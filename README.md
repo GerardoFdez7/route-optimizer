@@ -49,15 +49,17 @@ cd route-optimizer
 ```bash
 cd backend
 
-- # Al usar Windows con powershell, la instalación por pip puede no estar en el PATH. 
-# Antepón "py -m" para invocar a uv de manera universal:
-py -m uv sync
+# Crear entorno virtual con Python 3.11 (recomendado para Cloud Functions)
+py -m uv venv --python 3.11
 
-- # Activar el entorno virtual para que tu editor reconozca los imports:
-# WINDOWS (PowerShell): .\.venv\Scripts\activate
-# MAC/LINUX: source .venv/bin/activate
+# Instalar dependencias apuntando al entorno virtual
+py -m uv pip install -r requirements.txt --python .\.venv
 
-- # Configurar variables de entorno
+# Activar el entorno virtual para tu editor de código:
+- WINDOWS (PowerShell): .\.venv\Scripts\activate
+- MAC/LINUX: source .venv/bin/activate
+
+# Configurar variables de entorno
 cp .env.example .env
 
 # Ejecutar la Cloud Function de manera local
