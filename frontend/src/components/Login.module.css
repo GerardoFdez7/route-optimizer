@@ -1,0 +1,274 @@
+/* Login.module.css */
+
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@700;800&display=swap');
+
+.page {
+  min-height: 100vh;
+  background: #07080d;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  font-family: 'Space Mono', monospace;
+}
+
+/* Ambient glows */
+.glow1 {
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0, 229, 255, 0.07) 0%, transparent 70%);
+  top: -150px;
+  right: -100px;
+  pointer-events: none;
+}
+
+.glow2 {
+  position: absolute;
+  width: 400px;
+  height: 400px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0, 119, 255, 0.06) 0%, transparent 70%);
+  bottom: -100px;
+  left: -80px;
+  pointer-events: none;
+}
+
+/* Subtle grid overlay */
+.page::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(0, 229, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 229, 255, 0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+}
+
+/* ── Card ────────────────────────────────────────────────────────── */
+.card {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 400px;
+  margin: 0 16px;
+  background: rgba(13, 17, 23, 0.9);
+  border: 1px solid rgba(0, 229, 255, 0.15);
+  border-radius: 20px;
+  padding: 36px 32px;
+  box-shadow:
+    0 0 0 1px rgba(0, 229, 255, 0.05),
+    0 32px 64px rgba(0, 0, 0, 0.5),
+    0 0 60px rgba(0, 229, 255, 0.06);
+  backdrop-filter: blur(20px);
+  animation: fadeUp 0.5s ease both;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Brand ───────────────────────────────────────────────────────── */
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 28px;
+}
+
+.brandIcon {
+  font-size: 36px;
+  color: #00e5ff;
+  line-height: 1;
+  filter: drop-shadow(0 0 10px rgba(0, 229, 255, 0.6));
+}
+
+.brandTitle {
+  font-family: 'Syne', sans-serif;
+  font-size: 22px;
+  font-weight: 800;
+  color: #f0f6fc;
+  margin: 0 0 2px 0;
+  letter-spacing: -0.01em;
+}
+
+.brandSub {
+  font-size: 10px;
+  color: rgba(139, 148, 158, 0.8);
+  margin: 0;
+  letter-spacing: 0.04em;
+}
+
+/* ── Form title ──────────────────────────────────────────────────── */
+.formTitle {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: #00e5ff;
+  margin: 0 0 20px 0;
+  font-weight: 700;
+}
+
+/* ── Form ────────────────────────────────────────────────────────── */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-bottom: 20px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.field label {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: rgba(139, 148, 158, 0.8);
+}
+
+.field input {
+  background: rgba(22, 27, 34, 0.8);
+  border: 1px solid rgba(0, 229, 255, 0.12);
+  border-radius: 10px;
+  padding: 11px 14px;
+  font-family: 'Space Mono', monospace;
+  font-size: 13px;
+  color: #f0f6fc;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.field input::placeholder {
+  color: rgba(139, 148, 158, 0.4);
+}
+
+.field input:focus {
+  border-color: #00e5ff;
+  box-shadow: 0 0 0 3px rgba(0, 229, 255, 0.1);
+}
+
+/* ── Error ───────────────────────────────────────────────────────── */
+.error {
+  font-size: 11px;
+  color: #ff4f6b;
+  margin: -4px 0 0 0;
+  padding: 8px 12px;
+  background: rgba(255, 79, 107, 0.08);
+  border: 1px solid rgba(255, 79, 107, 0.2);
+  border-radius: 8px;
+}
+
+/* ── Primary button ──────────────────────────────────────────────── */
+.btnPrimary {
+  padding: 13px;
+  background: linear-gradient(135deg, #00e5ff 0%, #0077ff 100%);
+  border: none;
+  border-radius: 10px;
+  font-family: 'Space Mono', monospace;
+  font-size: 13px;
+  font-weight: 700;
+  color: #0a0a0f;
+  cursor: pointer;
+  letter-spacing: 0.04em;
+  transition: opacity 0.2s, transform 0.15s, box-shadow 0.2s;
+  box-shadow: 0 0 20px rgba(0, 229, 255, 0.25);
+  margin-top: 4px;
+}
+
+.btnPrimary:hover:not(:disabled) {
+  opacity: 0.9;
+  transform: translateY(-1px);
+  box-shadow: 0 0 30px rgba(0, 229, 255, 0.4);
+}
+
+.btnPrimary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ── Divider ─────────────────────────────────────────────────────── */
+.divider {
+  position: relative;
+  text-align: center;
+  margin: 4px 0 16px;
+}
+
+.divider::before {
+  content: '';
+  position: absolute;
+  inset: 50% 0 auto;
+  height: 1px;
+  background: rgba(0, 229, 255, 0.1);
+}
+
+.divider span {
+  position: relative;
+  background: rgba(13, 17, 23, 0.9);
+  padding: 0 12px;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: rgba(139, 148, 158, 0.5);
+}
+
+/* ── Google button ───────────────────────────────────────────────── */
+.btnGoogle {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 11px;
+  background: rgba(22, 27, 34, 0.8);
+  border: 1px solid rgba(0, 229, 255, 0.12);
+  border-radius: 10px;
+  font-family: 'Space Mono', monospace;
+  font-size: 12px;
+  color: #f0f6fc;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+  margin-bottom: 20px;
+}
+
+.btnGoogle:hover:not(:disabled) {
+  border-color: rgba(0, 229, 255, 0.3);
+  background: rgba(0, 229, 255, 0.05);
+}
+
+.btnGoogle:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ── Switch row ──────────────────────────────────────────────────── */
+.switchRow {
+  text-align: center;
+  font-size: 11px;
+  color: rgba(139, 148, 158, 0.6);
+  margin: 0;
+}
+
+.switchBtn {
+  background: none;
+  border: none;
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  color: #00e5ff;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  padding: 0;
+  transition: opacity 0.15s;
+}
+
+.switchBtn:hover {
+  opacity: 0.75;
+}
