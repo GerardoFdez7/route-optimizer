@@ -75,12 +75,38 @@ export default function App() {
     setFromCache(false);
   }, []);
 
+    /* ── Haversine: distancia en línea recta entre 2 puntos (km) ── */
+  const haversineKm = (a, b) => {
+    const R = 6371;
+    const dLat = (b.lat - a.lat) * Math.PI / 180;
+    const dLng = (b.lng - a.lng) * Math.PI / 180;
+    const s =
+      Math.sin(dLat / 2) ** 2 +
+      Math.cos(a.lat * Math.PI / 180) *
+      Math.cos(b.lat * Math.PI / 180) *
+      Math.sin(dLng / 2) ** 2;
+    return R * 2 * Math.asin(Math.sqrt(s));
+  };
+
   /* ── Optimize ────────────────────────────────────────── */
   const handleOptimize = async () => {
     if (destinations.length < 2) {
       setError('Agrega al menos 2 destinos.');
       return;
     }
+    // Validar radio máximo de 100 km entre cualquier par de puntos
+    for (let i = 0; i < destinations.length; i++) {
+      for (let j = i + 1; j < destinations.length; j++) {
+        const dist = haversineKm(destinations[i], destinations[j]);
+        if (dist > 100) {
+          setError(
+            `"${destinations[i].name}" y "${destinations[j].name}" están a ${dist.toFixed(1)} km de distancia. El límite máximo entre cualquier par de puntos es 100 km.`
+          );
+          return;
+        }
+      }
+    }
+    
     setError(null);
 
     // Try cache first

@@ -166,3 +166,19 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+/* ════════════════════════════════════════════════════════════════════
+   MOBILE responsive additions
+   ════════════════════════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+  .card {
+    margin-top: 12px;
+    padding: 14px 12px;
+  }
+
+  .statValue { font-size: 16px; }
+
+  .stopList  { max-height: 160px; }
+
+  .stopName  { font-size: 12px; }
+}
