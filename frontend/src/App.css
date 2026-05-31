@@ -1,0 +1,180 @@
+/* ─── Shell ──────────────────────────────────────────── */
+.app-layout {
+  display: grid;
+  grid-template-rows: var(--header-h) 1fr;
+  height: 100dvh;
+  overflow: hidden;
+}
+
+/* ─── Header ─────────────────────────────────────────── */
+.app-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  background: var(--sidebar-bg);
+  border-bottom: 1px solid var(--border);
+  z-index: 20;
+  gap: 16px;
+}
+
+.header-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.header-hex {
+  color: var(--accent);
+  font-size: 1.4rem;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+}
+
+.header-title {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text);
+}
+
+.header-title em {
+  color: var(--accent);
+  font-style: normal;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.cache-badge {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  background: rgba(0, 212, 170, 0.1);
+  border: 1px solid rgba(0, 212, 170, 0.2);
+  border-radius: 20px;
+  font-size: 0.7rem;
+  color: var(--accent);
+  font-weight: 500;
+  white-space: nowrap;
+  animation: fadeInUp 0.2s ease;
+}
+
+.cache-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--accent);
+  flex-shrink: 0;
+}
+
+.user-email {
+  font-size: 0.775rem;
+  color: var(--text-muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 180px;
+}
+
+.btn-signout {
+  font-family: var(--font-display);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 5px 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text-muted);
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+.btn-signout:hover {
+  border-color: var(--error);
+  color: var(--error);
+}
+
+/* ─── Main layout ────────────────────────────────────── */
+.app-main {
+  display: grid;
+  grid-template-columns: var(--sidebar-w) 1fr;
+  overflow: hidden;
+  min-height: 0;
+}
+
+.sidebar {
+  background: var(--sidebar-bg);
+  border-right: 1px solid var(--border);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.map-area {
+  position: relative;
+  background: var(--bg);
+  min-width: 0;
+}
+
+/* ─── Map loading overlay ────────────────────────────── */
+.map-loading {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  background: var(--bg);
+  z-index: 10;
+  color: var(--text-muted);
+  font-size: 0.825rem;
+}
+
+/* ─── Error banner ───────────────────────────────────── */
+.error-banner {
+  margin: 0 16px 16px;
+  padding: 10px 14px;
+  background: var(--error-dim);
+  border: 1px solid rgba(255, 77, 109, 0.25);
+  border-radius: var(--radius);
+  color: var(--error);
+  font-size: 0.8rem;
+  line-height: 1.5;
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  animation: fadeInUp 0.2s ease;
+}
+
+/* ─── Full-page auth loading ─────────────────────────── */
+.auth-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100dvh;
+  background: var(--bg);
+}
+
+/* ─── Mobile breakpoint ──────────────────────────────── */
+@media (max-width: 768px) {
+  .app-main {
+    grid-template-columns: 1fr;
+    grid-template-rows: 45dvh 1fr;
+  }
+  .map-area  { order: 1; }
+  .sidebar   { order: 2; border-right: none; border-top: 1px solid var(--border); }
+  .user-email { display: none; }
+  .cache-badge { display: none; }
+}

@@ -1,0 +1,102 @@
+/* ─── Design Tokens ─────────────────────────────────── */
+:root {
+  --bg:          #080c16;
+  --sidebar-bg:  #0f1624;
+  --surface:     #162032;
+  --surface-2:   #1e2d42;
+  --accent:      #00d4aa;
+  --accent-dim:  rgba(0, 212, 170, 0.12);
+  --accent-2:    #ff6b35;
+  --text:        #e8ecf3;
+  --text-muted:  #7a8fa6;
+  --border:      rgba(255, 255, 255, 0.07);
+  --error:       #ff4d6d;
+  --error-dim:   rgba(255, 77, 109, 0.12);
+
+  --font-display: 'Barlow Condensed', sans-serif;
+  --font-body:    'Figtree', sans-serif;
+
+  --sidebar-w:  380px;
+  --header-h:   60px;
+  --radius:     8px;
+}
+
+/* ─── Reset ──────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body, #root { height: 100%; overflow: hidden; }
+
+body {
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+input, button { font-family: var(--font-body); }
+button { cursor: pointer; border: none; outline: none; background: none; }
+a { color: var(--accent); }
+
+/* ─── Scrollbar ──────────────────────────────────────── */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.2); }
+
+/* ─── Animations ─────────────────────────────────────── */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+@keyframes blink {
+  0%, 80%, 100% { opacity: 0.2; }
+  40%           { opacity: 1; }
+}
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position:  200% 0; }
+}
+
+/* ─── Reusable utilities ─────────────────────────────── */
+.spinner {
+  width: 28px;
+  height: 28px;
+  border: 2px solid rgba(255,255,255,0.08);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 0.75s linear infinite;
+}
+
+/* ─── Google Places Autocomplete — dark theme override ── */
+.pac-container {
+  background: var(--surface-2) !important;
+  border: 1px solid rgba(0,212,170,0.25) !important;
+  border-radius: var(--radius) !important;
+  margin-top: 6px !important;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.6) !important;
+  font-family: var(--font-body) !important;
+  z-index: 9999 !important;
+}
+.pac-item {
+  color: var(--text-muted) !important;
+  border-top: 1px solid var(--border) !important;
+  padding: 10px 14px !important;
+  font-size: 0.825rem;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.pac-item:first-child { border-top: none !important; }
+.pac-item:hover { background: var(--surface) !important; }
+.pac-item-query { color: var(--text) !important; font-size: 0.825rem; }
+.pac-matched { color: var(--accent) !important; font-style: normal; }
+.pac-icon, .pac-logo::after { display: none !important; }
+.hdpi .pac-icon { display: none !important; }
+
+/* ─── Mobile ─────────────────────────────────────────── */
+@media (max-width: 768px) {
+  :root { --sidebar-w: 100%; --header-h: 52px; }
+}
