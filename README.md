@@ -74,9 +74,9 @@ cd frontend
 # Instalar dependencias
 npm install
 
-# Configurar variables de entorno
-cp .env.example .env.local
-
 # Levantar servidor de desarrollo
 npm run dev
+
+# Finalmente entrar a: localhost:5173
 ```
+Nota: se debe de tener el  `.env.local` dentro de la carpeta de /frontend para que funcione. 
