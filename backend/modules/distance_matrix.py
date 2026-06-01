@@ -49,26 +49,45 @@ def validate_destinations(destinations):
 def get_distance_matrix(api_key, destinations):
     """
     Invoca a la API de Google Maps Distance Matrix.
-    Retorna la matriz de distancias en formato JSON.
+    Pagina la petición en bloques para evitar el límite de 100 elementos por petición.
+    Retorna la matriz de distancias con todas las 'rows' combinadas.
     """
     validate_destinations(destinations)
     
-    # Formatear ubicaciones para Google Maps (lat,lng|lat,lng|...)
-    locations_str = "|".join([f"{d['lat']},{d['lng']}" for d in destinations])
+    num_destinations = len(destinations)
+    # Todos los destinos siempre se envían formados
+    destinations_str = "|".join([f"{d['lat']},{d['lng']}" for d in destinations])
     
     url = "https://maps.googleapis.com/maps/api/distancematrix/json"
-    params = {
-        "origins": locations_str,
-        "destinations": locations_str,
-        "key": api_key
-    }
     
-    response = requests.get(url, params=params)
-    response.raise_for_status()
+    # El límite de la API de Google Maps es de 100 elementos (orígenes * destinos) por petición.
+    # Calculamos cuántos orígenes podemos enviar de forma segura por cada lote.
+    max_origins_per_request = max(1, 100 // num_destinations)
     
-    data = response.json()
+    combined_rows = []
     
-    if data.get("status") != "OK":
-        raise Exception(f"Google Maps API Error: {data.get('error_message', data.get('status'))}")
+    for i in range(0, num_destinations, max_origins_per_request):
+        chunk = destinations[i:i + max_origins_per_request]
+        origins_str = "|".join([f"{d['lat']},{d['lng']}" for d in chunk])
         
-    return data
+        params = {
+            "origins": origins_str,
+            "destinations": destinations_str,
+            "key": api_key
+        }
+        
+        response = requests.get(url, params=params)
+        response.raise_for_status()
+        
+        data = response.json()
+        
+        if data.get("status") != "OK":
+            raise Exception(f"Google Maps API Error: {data.get('error_message', data.get('status'))}")
+            
+        # Añadimos las filas resultantes de este lote
+        combined_rows.extend(data.get("rows", []))
+        
+    return {
+        "status": "OK",
+        "rows": combined_rows
+    }
